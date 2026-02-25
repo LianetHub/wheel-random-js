@@ -4,60 +4,32 @@
     'title': 'Wheel'
     })
     <body>
-        <div class="widget-wheel">
-            <div class="widget-wheel-wrap">
-                <button type="button" class="widget-wheel-center">Крутить</button>
-                <div class="widget-wheel-arrow"></div>
-                <div class="widget-wheel-block">
-                    <div class="widget-wheel-inner">
-                        <div class="widget-wheel-part">
-                            <div class="widget-wheel-slice-1">
-                                <span class="widget-wheel-text widget-wheel-text-1" data-sector="value-1">
-                                    <span>10 бесплатных заявок</span>
-                                </span>
-                            </div>
-                            <div class="widget-wheel-slice-2">
-                                <span class="widget-wheel-text widget-wheel-text-2" data-sector="value-2">
-                                    <span>Помощь с установкой</span>
-                                </span>
-                            </div>
-                            <div class="widget-wheel-slice-3">
-                                <span class="widget-wheel-text widget-wheel-text-3" data-sector="value-3">
-                                    <span>1 месяц бесплатно</span>
-                                </span>
-                            </div>
-                            <div class="widget-wheel-slice-4">
-                                <span class="widget-wheel-text widget-wheel-text-4" data-sector="value-4">
-                                    <span>Промо-код на скидку</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="widget-wheel-part">
-                            <div class="widget-wheel-slice-5">
-                                <span class="widget-wheel-text widget-wheel-text-5" data-sector="value-5">
-                                    <span>10 бесплатных заявок</span>
-                                </span>
-                            </div>
-                            <div class="widget-wheel-slice-6">
-                                <span class="widget-wheel-text widget-wheel-text-6" data-sector="value-6">
-                                    <span>Помощь с установкой</span>
-                                </span>
-                            </div>
-                            <div class="widget-wheel-slice-7">
-                                <span class="widget-wheel-text widget-wheel-text-7" data-sector="value-7">
-                                    <span>1 месяц бесплатно</span>
-                                </span>
-                            </div>
-                            <div class="widget-wheel-slice-8">
-                                <span class="widget-wheel-text widget-wheel-text-8" data-sector="value-8">
-                                    <span>Промо-код на скидку</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="wheel-example"></div>
         @@include('html/_js.html', {})
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const wheelDataOdd = [
+                    { value: 'val-1', label: '10 заявок' },
+                    { value: 'val-2', label: 'Установка' },
+                    { value: 'val-3', label: '1 месяц' },
+                    { value: 'val-4', label: 'Промо-код' },
+                    { value: 'val-5', label: 'Подарок' },
+                    { value: 'val-6', label: 'Скидка 50%' },
+                    { value: 'val-7', label: '1 месяц' },
+                    { value: 'val-8', label: 'Промо-код' },
+                    { value: 'val-9', label: 'Подарок' },
+                    { value: 'val-10', label: 'Скидка 50%' },
+                    { value: 'val-11', label: 'VIP статус' }
+                ];
+
+                const options = {
+                    idleVelocity: 20,
+                    spinDuration: 5000,
+                    onResult: (res) => alert(`Результат: ${res.label}`)
+                };
+
+                new WheelWidget('#wheel-example', wheelDataOdd, options);
+            });
+        </script>
     </body>
 </html>

@@ -10,12 +10,13 @@
 
     --slice-color-odd: #76071f;
     --slice-color-even: #a61635;
+    --slice-color-third: #c81d40;
     --wheel-border-color: #aaa;
 
     --wheel-text-color: var(--white);
     --wheel-text-size: 16px;
     --wheel-text-size-mobile: 12px;
-    --wheel-text-padding: 0 8% 1% 36%;
+    --wheel-text-padding: 0 36% 1% 8%;
 
     --btn-center-bg: var(--white);
     --btn-center-color: #333;
@@ -28,34 +29,13 @@
     --arrow-shadow: -3px 3px 3px rgba(0, 0, 0, 0.2);
 }
 
-$spins: (
-    4: 1192.5deg,
-    3: 1237.5deg,
-    2: 922.5deg,
-    1: 967.5deg,
-    8: 1012.5deg,
-    7: 1057.5deg,
-    6: 1102.5deg,
-    5: 1147.5deg
-);
-
-@each $num, $deg in $spins {
-    @keyframes anim-spin-#{$num} {
-        from {
-            transform: rotate(-22.5deg);
-        }
-
-        to {
-            transform: rotate(#{$deg});
-        }
-    }
-}
-
-
 body {
     font-family: 'PT Sans', sans-serif;
     background: var(--bg-main);
     min-width: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .widget-wheel {
@@ -69,11 +49,6 @@ body {
         width: 100%;
         height: 100%;
         position: relative;
-        animation-duration: var(--wheel-anim-duration);
-        animation-iteration-count: 1;
-        animation-timing-function: ease-out;
-        animation-fill-mode: forwards;
-        transform: rotate(-22.5deg);
     }
 
     &-wrap {
@@ -146,66 +121,17 @@ body {
         height: 100%;
         border-radius: 50%;
         overflow: hidden;
-
-        .widget-wheel-part {
-            position: absolute;
-            width: 50%;
-            height: 100%;
-            overflow: hidden;
-
-            >div {
-                position: absolute;
-                width: 200%;
-                height: 100%;
-            }
-
-            &~.widget-wheel-part {
-                left: 50%;
-
-                >div {
-                    left: -100%;
-                }
-            }
-        }
-
-        .widget-wheel-slice-1 {
-            background-image: linear-gradient(-45deg, transparent 50%, transparent 50%), linear-gradient(-90deg, transparent 50%, var(--slice-color-odd) 50%);
-        }
-
-        .widget-wheel-slice-2 {
-            background-image: linear-gradient(0deg, transparent 50%, transparent 50%), linear-gradient(-45deg, transparent 50%, var(--slice-color-even) 50%);
-        }
-
-        .widget-wheel-slice-3 {
-            background-image: linear-gradient(45deg, transparent 50%, transparent 50%), linear-gradient(0deg, transparent 50%, var(--slice-color-odd) 50%);
-        }
-
-        .widget-wheel-slice-4 {
-            background-image: linear-gradient(90deg, transparent 50%, transparent 50%), linear-gradient(45deg, transparent 50%, var(--slice-color-even) 50%);
-        }
-
-        .widget-wheel-slice-5 {
-            background-image: linear-gradient(135deg, transparent 50%, transparent 50%), linear-gradient(90deg, transparent 50%, var(--slice-color-odd) 50%);
-        }
-
-        .widget-wheel-slice-6 {
-            background-image: linear-gradient(180deg, transparent 50%, transparent 50%), linear-gradient(135deg, transparent 50%, var(--slice-color-even) 50%);
-        }
-
-        .widget-wheel-slice-7 {
-            background-image: linear-gradient(225deg, transparent 50%, transparent 50%), linear-gradient(180deg, transparent 50%, var(--slice-color-odd) 50%);
-        }
-
-        .widget-wheel-slice-8 {
-            background-image: linear-gradient(270deg, transparent 50%, transparent 50%), linear-gradient(225deg, transparent 50%, var(--slice-color-even) 50%);
-        }
     }
 
     &-text {
         position: absolute;
-        z-index: 30;
-        transform-origin: 0 0;
+        top: 50%;
+        left: 50%;
         width: 50%;
+        height: 0;
+        transform-origin: 0 0;
+        z-index: 30;
+        user-select: none;
 
         span {
             position: absolute;
@@ -221,54 +147,6 @@ body {
             @media (max-width: 620px) {
                 font-size: var(--wheel-text-size-mobile);
             }
-        }
-
-        &-1 {
-            left: 30.7%;
-            top: 96.3%;
-            transform: rotate(-67.5deg);
-        }
-
-        &-2 {
-            left: 3.5%;
-            top: 69.1%;
-            transform: rotate(-22.5deg);
-        }
-
-        &-3 {
-            left: 3.4%;
-            top: 30.5%;
-            transform: rotate(22.5deg);
-        }
-
-        &-4 {
-            left: 30.9%;
-            top: 3.2%;
-            transform: rotate(67.5deg);
-        }
-
-        &-5 {
-            left: 69.4%;
-            top: 3.5%;
-            transform: rotate(112.5deg);
-        }
-
-        &-6 {
-            left: 96.3%;
-            top: 30.9%;
-            transform: rotate(157.5deg);
-        }
-
-        &-7 {
-            left: 96.5%;
-            top: 69.3%;
-            transform: rotate(202.5deg);
-        }
-
-        &-8 {
-            left: 69.2%;
-            top: 96.6%;
-            transform: rotate(247.5deg);
         }
     }
 }

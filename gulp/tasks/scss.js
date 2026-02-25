@@ -27,7 +27,6 @@ export const scss = () => {
                 groupCssMediaQueries()
             )
         )
-
         .pipe(
             app.plugins.if(
                 app.isBuild,
@@ -38,7 +37,6 @@ export const scss = () => {
                 })
             )
         )
-
         .pipe(app.plugins.replace(/@img\//g, '../img/'))
         .pipe(app.gulp.dest(app.path.build.css))
         .pipe(
@@ -47,9 +45,6 @@ export const scss = () => {
                 cleanCss()
             )
         )
-        .pipe(rename({
-            extname: ".min.css"
-        }))
         .pipe(app.gulp.dest(app.path.build.css))
         .pipe(app.plugins.browsersync.stream());
 }
