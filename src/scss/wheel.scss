@@ -55,6 +55,7 @@ $spins: (
 body {
     font-family: 'PT Sans', sans-serif;
     background: var(--bg-main);
+    min-width: 320px;
 }
 
 .widget-wheel {
@@ -126,18 +127,17 @@ body {
     }
 
     &-arrow {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
         width: 0;
         height: 0;
-        border-style: solid;
-        border-width: 14px 40px 14px 0;
-        border-color: transparent var(--arrow-color) transparent transparent;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 30px solid var(--arrow-color);
         filter: drop-shadow(var(--arrow-shadow));
-        position: absolute;
-        right: -8px;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        z-index: 100;
     }
 
     &-inner {
