@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html lang="ru">
-    @@include('html/_head.html', {
-    'title': 'Wheel'
-    })
+    <head>
+    <title>Wheel</title>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/reset.min.css">
+    <link rel="stylesheet" href="css/style.min.css">
+
+</head>
     <body>
         <div class="widget-wheel">
             <div class="widget-wheel-wrap">
@@ -58,6 +66,41 @@
                 </div>
             </div>
         </div>
-        @@include('html/_js.html', {})
+        <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        function updateButtonHref() {
+            const stagValue = getUrlParameter("stag");
+            const trackingLink = getUrlParameter("tracking_link");
+            if (stagValue || trackingLink) {
+                const stagLinks = document.querySelectorAll(".stag-link");
+
+
+                stagLinks.forEach(stagLink => {
+
+                    let btnCurrentHref = stagLink.getAttribute("href");
+                    let updatedHref = btnCurrentHref;
+                    if (stagValue) {
+                        updatedHref +=
+                            (updatedHref.includes("?") ? "&" : "?") + `stag=${stagValue}`;
+                    }
+                    if (trackingLink) {
+                        updatedHref +=
+                            (updatedHref.includes("?") ? "&" : "?") +
+                            `tracking_link=${trackingLink}`;
+                    }
+                    stagLink.setAttribute("href", updatedHref);
+                })
+            }
+        }
+        updateButtonHref()
+    })
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+<script src="js/app.min.js"></script>
     </body>
 </html>
