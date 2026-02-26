@@ -9,17 +9,17 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const wheelDataOdd = [
-                    { value: 'val-1', label: '10 заявок' },
-                    { value: 'val-2', label: 'Установка' },
+                    { value: 'val-1', label: '10 заявок', chance: 0.05 },
+                    { value: 'val-2', label: 'Установка', chance: 0 },
                     { value: 'val-3', label: '1 месяц' },
-                    { value: 'val-4', label: 'Промо-код' },
+                    { value: 'val-4', label: 'Промо-код', chance: 0.1 },
                     { value: 'val-5', label: 'Подарок' },
-                    { value: 'val-6', label: 'Скидка 50%' },
+                    { value: 'val-6', label: 'Скидка 50%', chance: 0.05 },
                     { value: 'val-7', label: '1 месяц' },
                     { value: 'val-8', label: 'Промо-код' },
                     { value: 'val-9', label: 'Подарок' },
                     { value: 'val-10', label: 'Скидка 50%' },
-                    { value: 'val-11', label: 'VIP статус' }
+                    { value: 'val-11', label: 'VIP статус', chance: 0.01 }
                 ];
 
                 const options = {

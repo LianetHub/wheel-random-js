@@ -16,7 +16,7 @@
     --wheel-text-color: var(--white);
     --wheel-text-size: 16px;
     --wheel-text-size-mobile: 12px;
-    --wheel-text-padding: 0 36% 1% 8%;
+    --wheel-text-padding: 0 8% 1% 36%;
 
     --btn-center-bg: var(--white);
     --btn-center-color: #333;
@@ -135,7 +135,7 @@ body {
 
         span {
             position: absolute;
-            transform: translateY(-50%) rotate(180deg);
+            transform: translateY(-50%);
             text-align: center;
             display: block;
             width: 100%;

@@ -29,10 +29,24 @@ class WheelWidget {
 
     init() {
         if (!this.container) return;
+        this.calculateChances();
         this.buildDOM();
         this.renderSectors();
         this.bindEvents();
         this.startIdleRotation();
+    }
+
+    calculateChances() {
+        const fixedSectors = this.data.filter(item => item.chance !== undefined);
+        const totalFixedChance = fixedSectors.reduce((acc, item) => acc + item.chance, 0);
+        const remainingChance = Math.max(0, 1 - totalFixedChance);
+        const autoSectorsCount = this.sectorsCount - fixedSectors.length;
+        const defaultChance = autoSectorsCount > 0 ? remainingChance / autoSectorsCount : 0;
+
+        this.data = this.data.map(item => ({
+            ...item,
+            calculatedChance: item.chance !== undefined ? item.chance : defaultChance
+        }));
     }
 
     buildDOM() {
@@ -83,7 +97,8 @@ class WheelWidget {
         this.wheelInner.style.background = `conic-gradient(from ${-this.step / 2}deg, ${gradientParts.join(', ')})`;
 
         this.data.forEach((item, i) => {
-            const textAngle = (i * this.step) - 90;
+            const sectorAngle = i * this.step;
+            const textAngle = sectorAngle - 90;
             const textEl = document.createElement('div');
             textEl.className = 'widget-wheel-text';
             textEl.style.transform = `rotate(${textAngle}deg)`;
@@ -128,19 +143,27 @@ class WheelWidget {
 
         cancelAnimationFrame(this.idleAnimation);
 
+        const randomVal = Math.random();
+        let cumulativeChance = 0;
+        let winningIndex = 0;
+
+        for (let i = 0; i < this.data.length; i++) {
+            cumulativeChance += this.data[i].calculatedChance;
+            if (randomVal <= cumulativeChance) {
+                winningIndex = i;
+                break;
+            }
+        }
+
         const startAngle = this.currentRotation % 360;
+        const extraSpins = Math.max(this.config.minSpins, 5);
+        const targetSectorAngle = (360 - (winningIndex * this.step)) % 360;
 
-        const spinsPerSecond = 1.5;
-        const autoSpins = Math.ceil((this.config.spinDuration / 1000) * spinsPerSecond);
-
-        const extraSpins = Math.max(autoSpins, this.config.minSpins);
-        const randomDegree = Math.floor(Math.random() * 360);
-
-        const totalRotation = (extraSpins * 360) + randomDegree;
-        const finalRotation = startAngle + totalRotation;
+        const randomOffset = (Math.random() - 0.5) * (this.step * 0.7);
+        const finalRotation = (this.currentRotation - startAngle) + (extraSpins * 360) + targetSectorAngle + randomOffset;
 
         const animation = this.wheelBlock.animate([
-            { transform: `rotate(${startAngle}deg)` },
+            { transform: `rotate(${this.currentRotation}deg)` },
             { transform: `rotate(${finalRotation}deg)` }
         ], {
             duration: this.config.spinDuration,
@@ -150,27 +173,16 @@ class WheelWidget {
 
         animation.onfinish = () => {
             this.currentRotation = finalRotation;
-            this.wheelBlock.style.transform = `rotate(${this.currentRotation % 360}deg)`;
-
-            const actualRotation = this.currentRotation % 360;
-            const relAngle = (360 - actualRotation) % 360;
-            let winningIndex = Math.floor(((relAngle + this.step / 2) % 360) / this.step);
-
-            if (winningIndex >= this.sectorsCount) winningIndex = 0;
-
             const winningSector = this.sectors[winningIndex];
             const resultValue = winningSector.getAttribute('data-sector');
-
             this.wheel.setAttribute('data-result', resultValue);
-
             if (this.config.onResult) {
                 this.config.onResult({
                     value: resultValue,
                     label: winningSector.innerText
                 });
-            } else {
-                alert(winningSector.innerText);
             }
+
 
             this.isSpinning = false;
             this.spinBtn.disabled = false;
